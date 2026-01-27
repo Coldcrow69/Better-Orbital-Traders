@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!--increase silver for empire trader if royalty is installed-->
+	<Operation Class="PatchOperationConditional">
+		<xpath>/Defs/TraderKindDef[defName="Orbital_Empire"]</xpath>
+			<success>Always</success>
+		<match Class="PatchOperationReplace">
+			<xpath>/Defs/TraderKindDef[defName="Orbital_Empire"]//thingDef[text()="Silver"]/../countRange</xpath>
+				<value>
+					<countRange>100000~200000</countRange>
+				</value>
+		</match>
+	</Operation>
+</Patch>

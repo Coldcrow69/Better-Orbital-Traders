@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--View Readme.txt for more information on this mod.-->
+<ModMetaData>
+	<packageId>coldcrow.betterorbitaltraders</packageId>
+	<name>Better Orbital Traders</name>
+	<author>Coldcrow</author>
+	<supportedVersions>
+		<li>1.4</li>
+		<li>1.5</li>
+		<li>1.6</li>
+	</supportedVersions>
+	<modVersion>1.5</modVersion>
+	<description>
+Better Orbital Traders is an immersive (albeit powerful) re-balance to vanilla orbital traders. Better Orbital Traders additionally adds 3 new orbital trader types, including an Orbital Scrapyard which will buy ANYTHING. Get rid of your junk!
+
+The quantity of silver carried by base game orbital traders has been substantially increased (within reason), and their stock quantities have been re-balanced to demonstrate the massive size of these ships and the quantity of goods they carry. This change makes vanilla orbital traders more significant for late game colonies and wealthy players, and gives early game players expanded options.
+
+Main Features of "Better Orbital Traders" include:
+- Increased silver capacity of all base game (and DLC) orbital Traders
+- Re-balanced base game trader stocks generally increasing quantities and tweaking carried items
+- Adds an orbital scrapyard trader to buy ALL of your items
+- Adds an orbital ecosphere trader which deals in plant and animal products
+- Adds an organ farm trader that buys/sells humans and human accessories (organs + prosthetics)
+- Adds a narcotics dealer that smuggles all types of drugs and medicine to the rim from wealthy glitterworlds
+- Adds an autonomous archive that sells tech prints (with royalty) and books
+
+This mod DOES NOT interact with any ground based trader, or any traders added by another mod. This mod exclusively impacts base game (and DLC) orbital traders, and the traders this mod itself adds.
+	</description>
+</ModMetaData>
