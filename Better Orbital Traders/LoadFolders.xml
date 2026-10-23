@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--load instructions do not change-->
+<!--
+  Maps each game version to the folders RimWorld loads for it. Folders not listed here are ignored.
+  2.0 supports 1.6 and 1.7, and both load the same folders: 1.7 replaced the game engine, not the
+  defs this mod touches. A game version that does change a field or def gets its own numbered
+  folder next to Common/ and its own entry here.
+  CombatExtended/ loads only while Combat Extended is active (IfModActive matches its package id),
+  so the stock lines in there, which name CE's own defs, never load without the mod.
+-->
 <loadFolders>
-  <v1.4>
-    <li>1.4</li>
-  </v1.4>
-  <v1.5>
-    <li>1.5</li>
-  </v1.5>
   <v1.6>
-    <li>1.6</li>
+    <li>Common</li>
+    <li IfModActive="CETeam.CombatExtended">CombatExtended</li>
   </v1.6>
+  <v1.7>
+    <li>Common</li>
+    <li IfModActive="CETeam.CombatExtended">CombatExtended</li>
+  </v1.7>
 </loadFolders>

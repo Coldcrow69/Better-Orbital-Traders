@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: Traders Guild flagship. Odyssey only.
+
+  The one ship that never shows up on its own. The orbital trader arrival incident picks a ship
+  weighted by commonality, so commonality 0 takes this one out of the random roll entirely;
+  requestable keeps it on the comms console list for players allied with the Guild. Every visit
+  costs goodwill and starts the Guild's cooldown, which is the point: it is a reward for
+  keeping the Guild happy.
+
+  Carries more silver than any other ship (the imperial trader tops out at 150,000) and a slice
+  of what the rest of the fleet sells: the bulk trader's metals and components, the exotic
+  trader's spacer tech, art, and books, the combat supplier's weapons and armor, the archive's
+  techprints, the shipbreaker's gravship parts, and the organ farm's medicine. No drugs, no
+  animals, no organs: the specialist ships keep those. Buys what the vanilla orbital traders buy.
+
+  Generator classes are the vanilla ones (see Core's TraderKinds_Orbital_Misc.xml):
+  StockGenerator_MarketValue picks by trade tag with a quality roll, StockGenerator_Tag picks
+  kinds by tag, StockGenerator_Techprints makes nothing without Royalty.
+-->
+<Defs>
+
+  <TraderKindDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>BetterOrbitalTraders_Flagship</defName>
+    <label>guild flagship</label>
+    <orbital>true</orbital>
+    <faction>TradersGuild</faction>
+    <commonality>0</commonality>
+    <requestable>true</requestable>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>200000~300000</countRange>
+      </li>
+      <!-- Bulk goods: metals, components, textiles, fuel. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ComponentIndustrial</thingDef>
+        <countRange>100~250</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ComponentSpacer</thingDef>
+        <countRange>25~50</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Steel</thingDef>
+        <countRange>2500~10000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Plasteel</thingDef>
+        <countRange>500~2500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Gold</thingDef>
+        <countRange>500~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Uranium</thingDef>
+        <countRange>250~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Chemfuel</thingDef>
+        <countRange>1000~5000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Cloth</thingDef>
+        <countRange>1000~5000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Hyperweave</thingDef>
+        <countRange>100~300</countRange>
+      </li>
+      <!-- Medicine, from the organ farm's shelf. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>250~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineUltratech</thingDef>
+        <countRange>100~200</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Neutroamine</thingDef>
+        <countRange>1000~2000</countRange>
+      </li>
+      <!-- Arms and armor, the combat supplier's generators with bigger counts. -->
+      <li Class="StockGenerator_MarketValue">
+        <tradeTag>WeaponRanged</tradeTag>
+        <countRange>20~30</countRange>
+      </li>
+      <li Class="StockGenerator_Category">
+        <categoryDef>WeaponsMelee</categoryDef>
+        <thingDefCountRange>10~15</thingDefCountRange>
+        <countRange>2~3</countRange>
+      </li>
+      <li Class="StockGenerator_MarketValue">
+        <tradeTag>Armor</tradeTag>
+        <countRange>15~25</countRange>
+      </li>
+      <!-- Exotic goods: implants, art, artifacts, books. -->
+      <li Class="StockGenerator_Tag">
+        <tradeTag>TechHediff</tradeTag>
+        <thingDefCountRange>5~10</thingDefCountRange>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_MarketValue">
+        <tradeTag>Art</tradeTag>
+        <countRange>8~12</countRange>
+      </li>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>Artifact</tradeTag>
+        <thingDefCountRange>3~5</thingDefCountRange>
+        <countRange>1~2</countRange>
+      </li>
+      <!-- A couple of each book: every generated book builds a full author pawn (see the archive). -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>TextBook</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Schematic</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Novel</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <!-- Techprints, the archive's trade. Four, always, with Royalty. -->
+      <li Class="StockGenerator_Techprints">
+        <countChances>
+          <li>
+            <count>4</count>
+            <chance>1</chance>
+          </li>
+        </countChances>
+      </li>
+      <!-- Gravship parts, the shipbreaker's trade. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>GravlitePanel</thingDef>
+        <countRange>200~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>ShuttleEngine</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <!-- Buys what the vanilla orbital traders buy. -->
+      <li Class="StockGenerator_BuyExpensiveSimple" />
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>Art</tag>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>MusicalInstrument</tag>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>GravshipUpgrade</tag>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+</Defs>

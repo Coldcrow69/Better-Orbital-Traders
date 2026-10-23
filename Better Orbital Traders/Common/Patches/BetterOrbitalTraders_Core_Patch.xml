@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: Core patch.
+
+  Re-balances the four vanilla orbital traders: Orbital_BulkGoods, Orbital_CombatSupplier,
+  Orbital_Exotic, Orbital_PirateMerchant. The imperial trader is in the Royalty patch.
+
+  xpath idiom used throughout: stockGenerators/li[thingDef="X"]/countRange selects the countRange
+  of the generator whose thingDef child is X. Same idea with categoryDef and tradeTag. Vanilla
+  numbers in the comments are from 1.6 (unchanged in 1.7) and are there so the scale of each
+  change is obvious.
+
+  Where vanilla uses totalPriceRange (a silver budget) we replace it with countRange (a flat
+  item count). Replace swaps the node wholesale, so no separate remove and add is needed.
+
+  A Replace logs an error when its node is missing. The one node another popular mod deletes
+  (the mortar shell line, Combat Extended) sits behind a conditional so load order stops
+  mattering; see the combat supplier section.
+-->
+<Patch>
+
+  <!-- ======================= Silver, all four vanilla orbital traders ======================= -->
+
+  <!-- Vanilla 2000~4000 on every one of them. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods" or defName="Orbital_CombatSupplier" or defName="Orbital_Exotic" or defName="Orbital_PirateMerchant"]/stockGenerators/li[thingDef="Silver"]/countRange</xpath>
+    <value>
+      <countRange>10000~50000</countRange>
+    </value>
+  </Operation>
+
+  <!-- ================================= Bulk goods trader ================================= -->
+
+  <!-- Vanilla 15~30 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="ComponentIndustrial"]/countRange</xpath>
+    <value>
+      <countRange>100~500</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 1~2. Kept under the exotic trader's 25~50, spacer tech is that ship's specialty. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="ComponentSpacer"]/countRange</xpath>
+    <value>
+      <countRange>10~25</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 500~800 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="Steel"]/countRange</xpath>
+    <value>
+      <countRange>5000~25000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 500~800 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
+    <value>
+      <countRange>1000~5000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 100~400 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="Plasteel"]/countRange</xpath>
+    <value>
+      <countRange>500~2500</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 200~600 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="Cloth"]/countRange</xpath>
+    <value>
+      <countRange>1000~5000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 50~200 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="Gold"]/countRange</xpath>
+    <value>
+      <countRange>100~1000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 200~600 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="Chemfuel"]/countRange</xpath>
+    <value>
+      <countRange>1000~5000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Textiles: vanilla picks 1~2 kinds against a 2200~4000 silver budget. Now up to every kind,
+       1000~10000 of each. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[categoryDef="Textiles"]/thingDefCountRange</xpath>
+    <value>
+      <thingDefCountRange>5~99</thingDefCountRange>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[categoryDef="Textiles"]/totalPriceRange</xpath>
+    <value>
+      <countRange>1000~10000</countRange>
+    </value>
+  </Operation>
+
+  <!-- Thrumbomane (Odyssey) is sellable-only in vanilla. With Better Tradable Items 2.0 it is buyable
+       and the line above stocks it by the thousand like every other textile. No cap, by design. -->
+
+  <!-- Raw resources: vanilla picks 2~4 kinds against an 800~1500 silver budget. Same treatment. This
+       line also rolls steel, plasteel, gold, and uranium on top of their single lines above, which
+       is intended: the single lines are the floor, this is the bulk. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[categoryDef="ResourcesRaw"]/thingDefCountRange</xpath>
+    <value>
+      <thingDefCountRange>5~99</thingDefCountRange>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[categoryDef="ResourcesRaw"]/totalPriceRange</xpath>
+    <value>
+      <countRange>1000~10000</countRange>
+    </value>
+  </Operation>
+
+  <!-- ================================== Combat supplier ================================== -->
+
+  <!-- Vanilla 5~10 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[thingDef="ComponentIndustrial"]/countRange</xpath>
+    <value>
+      <countRange>50~100</countRange>
+    </value>
+  </Operation>
+
+  <!-- Ranged weapons: vanilla 10~14 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[tradeTag="WeaponRanged"]/countRange</xpath>
+    <value>
+      <countRange>20~20</countRange>
+    </value>
+  </Operation>
+
+  <!-- Melee weapons: vanilla 5~6 kinds -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[categoryDef="WeaponsMelee"]/thingDefCountRange</xpath>
+    <value>
+      <thingDefCountRange>20~20</thingDefCountRange>
+    </value>
+  </Operation>
+
+  <!-- Mortar shells: vanilla 1~2 kinds, 20~40 each. Combat Extended deletes every vanilla mortar
+       shell stock line (it has its own ammo), so when CE loads first this line is already gone
+       and a plain Replace logs an error. The conditional checks that the line is there and stays
+       quiet when it is not (a conditional whose xpath finds nothing succeeds in 1.6 and 1.7;
+       success Always only adds cover for a changed line shape); when this mod loads first, CE
+       removes the line afterwards. Same end state in any load order: with CE, no vanilla mortar
+       shells on the ship. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[tradeTag="MortarShell"]</xpath>
+    <success>Always</success>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[tradeTag="MortarShell"]/thingDefCountRange</xpath>
+          <value>
+            <thingDefCountRange>5~5</thingDefCountRange>
+          </value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[tradeTag="MortarShell"]/countRange</xpath>
+          <value>
+            <countRange>100~300</countRange>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+
+  <!-- Armor: vanilla 8~10 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_CombatSupplier"]/stockGenerators/li[tradeTag="Armor"]/countRange</xpath>
+    <value>
+      <countRange>20~20</countRange>
+    </value>
+  </Operation>
+
+  <!-- ================================= Exotic goods trader ================================= -->
+
+  <!-- Vanilla 5~30 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_Exotic"]/stockGenerators/li[thingDef="ComponentIndustrial"]/countRange</xpath>
+    <value>
+      <countRange>50~100</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 3~8 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_Exotic"]/stockGenerators/li[thingDef="ComponentSpacer"]/countRange</xpath>
+    <value>
+      <countRange>25~50</countRange>
+    </value>
+  </Operation>
+
+  <!-- Vanilla 200~400 -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/TraderKindDef[defName="Orbital_Exotic"]/stockGenerators/li[thingDef="Gold"]/countRange</xpath>
+    <value>
+      <countRange>2500~5000</countRange>
+    </value>
+  </Operation>
+
+</Patch>

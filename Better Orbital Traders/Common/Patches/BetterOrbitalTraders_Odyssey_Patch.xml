@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: Odyssey integration.
+
+  The Traders Guild (Odyssey) is the faction behind every vanilla orbital trader. Its
+  orbitalTraderKinds list is what the comms console offers when an allied player requests an
+  orbital trader (costs goodwill, has a cooldown, and sends away whatever ship is already
+  overhead). This adds the ships from this mod to that list so they can be summoned the same
+  way. The shipbreaker and flagship only exist with Odyssey anyway, and the void peddler only
+  with Anomaly, hence its MayRequire. All of them are requestable; the flagship is the one that
+  is ONLY requestable, since its commonality is 0.
+
+  The faction tag itself sits on each TraderKindDef in Common/Defs with a MayRequire on Odyssey.
+  This patch is gated behind PatchOperationFindMod because without Odyssey there is no TradersGuild
+  def to patch, and an Add with no match would log an error.
+-->
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Odyssey</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>Defs/FactionDef[defName="TradersGuild"]/orbitalTraderKinds</xpath>
+      <value>
+        <li>BetterOrbitalTraders_Scrapper</li>
+        <li>BetterOrbitalTraders_Agriculture</li>
+        <li>BetterOrbitalTraders_Narcotics</li>
+        <li>BetterOrbitalTraders_OrganFarm</li>
+        <li>BetterOrbitalTraders_Archive</li>
+        <li>BetterOrbitalTraders_Shipbreaker</li>
+        <li MayRequire="Ludeon.RimWorld.Anomaly">BetterOrbitalTraders_VoidPeddler</li>
+        <li>BetterOrbitalTraders_Flagship</li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

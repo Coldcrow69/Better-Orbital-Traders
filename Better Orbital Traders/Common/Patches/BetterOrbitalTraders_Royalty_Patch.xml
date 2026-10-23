@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: Royalty patch.
+
+  The imperial trader (Orbital_Empire) is a Royalty def. Gated behind PatchOperationFindMod so
+  nothing runs, and nothing errors, without the DLC.
+-->
+<Patch>
+
+  <!-- Vanilla 2000~4000. The Empire is rich, let it show, but keep the range tight. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Royalty</li>
+    </mods>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/TraderKindDef[defName="Orbital_Empire"]/stockGenerators/li[thingDef="Silver"]/countRange</xpath>
+      <value>
+        <countRange>100000~150000</countRange>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

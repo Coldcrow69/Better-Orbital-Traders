@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: new orbital trader kinds.
+
+  The autonomous archive, orbital shipbreaker, and Guild flagship each have their own file next to
+  this one. The shipbreaker and flagship (Odyssey) and the void peddler (Anomaly) carry def-level
+  MayRequire tags, so they only exist with their DLC.
+
+  Stock generator notes, for anyone editing numbers:
+  - Each generator decides what the ship SELLS, and also makes the ship BUY whatever it handles.
+    A StockGenerator_Category with thingDefCountRange 0~0 sells nothing from that category but
+    still buys all of it. That is how the scrapyard works, and why the ecosphere and organ farm
+    need no separate "buy" entries for categories they already stock.
+  - countRange is how many of each item, thingDefCountRange is how many different items to pick.
+  - MayRequire="..." skips a node when that DLC is not active.
+  - With Odyssey active every ship here belongs to the Traders Guild (the faction tag on each
+    def). That makes them requestable from the comms console (the Odyssey patch adds them to
+    the Guild's list), ties trading and gifting with them to Guild goodwill, and keeps them away
+    while the Guild is hostile, exactly like the vanilla orbital traders. Without Odyssey the
+    MayRequire drops the tag and nothing changes.
+-->
+<Defs>
+
+  <!-- Orbital scrapyard. Sells nothing but silver, buys everything that has a tradeability. -->
+  <TraderKindDef>
+    <defName>BetterOrbitalTraders_Scrapper</defName>
+    <label>orbital scrapyard</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>50000~75000</countRange>
+      </li>
+      <!-- Root is the top of the item category tree, so this covers every category there is. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>Root</categoryDef>
+        <thingDefCountRange>0~0</thingDefCountRange>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <!-- Orbital ecosphere. Plant and animal products, livestock, pets, wildlife, rare seeds. -->
+  <TraderKindDef>
+    <defName>BetterOrbitalTraders_Agriculture</defName>
+    <label>orbital ecosphere</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>10000~50000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>WoodLog</thingDef>
+        <countRange>1000~5000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Hay</thingDef>
+        <countRange>5000~10000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Cloth</thingDef>
+        <countRange>2500~5000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineHerbal</thingDef>
+        <countRange>500~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Chocolate</thingDef>
+        <countRange>1000~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Dye</thingDef>
+        <countRange>500~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>InsectJelly</thingDef>
+        <countRange>100~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Milk</thingDef>
+        <countRange>1000~5000</countRange>
+      </li>
+      <!-- Rare seeds and oddities, a couple at most. Each exists only with its DLC. -->
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Odyssey">
+        <thingDef>SentienceCatalyst</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Odyssey">
+        <thingDef>ArcheanSeed</thingDef>
+        <countRange>0~1</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Ideology">
+        <thingDef>GauranlenSeed</thingDef>
+        <countRange>0~2</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>PoluxSeed</thingDef>
+        <countRange>0~1</countRange>
+      </li>
+      <li Class="StockGenerator_Category">
+        <categoryDef>PlantFoodRaw</categoryDef>
+        <thingDefCountRange>5~99</thingDefCountRange>
+        <countRange>1000~10000</countRange>
+      </li>
+      <li Class="StockGenerator_Category">
+        <categoryDef>PlantMatter</categoryDef>
+        <thingDefCountRange>5~99</thingDefCountRange>
+        <countRange>1000~10000</countRange>
+      </li>
+      <li Class="StockGenerator_Category">
+        <categoryDef>FoodMeals</categoryDef>
+        <thingDefCountRange>3~5</thingDefCountRange>
+        <countRange>100~500</countRange>
+      </li>
+      <!-- Fertilized eggs stay out, same rule as vanilla food stock. 500 alligator eggs is a
+           hatchery, not a shop. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>AnimalProductRaw</categoryDef>
+        <thingDefCountRange>5~10</thingDefCountRange>
+        <countRange>100~500</countRange>
+        <excludedCategories>
+          <li>EggsFertilized</li>
+        </excludedCategories>
+      </li>
+      <!-- Farm animals, pets, exotics, and uncommon wildlife (nearly all of Odyssey's new fauna is
+           tagged uncommon), both directions. maxWildness keeps the untameable out. countRange is the
+           head count across every kind picked, not per kind: the generator rolls the kinds once and
+           the heads once, then draws a random kind per head. Vanilla's bulk goods ship carries 2 to
+           4 kinds and 10 to 20 head, the most of any vanilla trader; this one carries 4 to 8 kinds
+           and 25 to 50 head. Farm animals come as a breeding pair, like vanilla's. -->
+      <li Class="StockGenerator_Animals">
+        <maxWildness>0.70</maxWildness>
+        <checkTemperature>false</checkTemperature>
+        <tradeTagsSell>
+          <li>AnimalFarm</li>
+          <li>AnimalPet</li>
+          <li>AnimalExotic</li>
+          <li>AnimalUncommon</li>
+        </tradeTagsSell>
+        <tradeTagsBuy>
+          <li>AnimalFarm</li>
+          <li>AnimalPet</li>
+          <li>AnimalExotic</li>
+          <li>AnimalUncommon</li>
+        </tradeTagsBuy>
+        <kindCountRange>4~8</kindCountRange>
+        <countRange>25~50</countRange>
+        <createMatingPair>
+          <li>AnimalFarm</li>
+        </createMatingPair>
+      </li>
+      <!-- Buys fish (Odyssey). Fish are sellable-only in vanilla, so no vanilla trader stocks them
+           (Better Tradable Items makes them buyable), but a 0~0 category entry makes the ship buy
+           the whole category either way. -->
+      <li Class="StockGenerator_Category" MayRequire="Ludeon.RimWorld.Odyssey">
+        <categoryDef>Fish</categoryDef>
+        <thingDefCountRange>0~0</thingDefCountRange>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <!-- Narcotics dealer. Every drug, plus the medicine to deal with the aftermath. -->
+  <TraderKindDef>
+    <defName>BetterOrbitalTraders_Narcotics</defName>
+    <label>narcotics dealer</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>25000~50000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>250~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineUltratech</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Neutroamine</thingDef>
+        <countRange>1000~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Beer</thingDef>
+        <countRange>250~1000</countRange>
+      </li>
+      <!-- Every drug in the game in bulk, except the rare ones, which are capped so they stay
+           rare. Vanilla sells a single deathrest serum and rolls a 20% chance at one Anomaly
+           serum. Sentience catalyst is an animal item and lives on the ecosphere instead. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>Drugs</categoryDef>
+        <thingDefCountRange>10~99</thingDefCountRange>
+        <countRange>100~500</countRange>
+        <excludedThingDefs>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">SentienceCatalyst</li>
+        </excludedThingDefs>
+        <customCountRanges>
+          <Luciferium>25~75</Luciferium>
+          <!-- Mech serums are vanilla sellable-only, so these only matter when another mod
+               makes them buyable (Better Tradable Items 2.0 does, for the healer). -->
+          <MechSerumHealer>1~2</MechSerumHealer>
+          <MechSerumResurrector>0~1</MechSerumResurrector>
+          <GhoulResurrectionSerum MayRequire="Ludeon.RimWorld.Anomaly">2~5</GhoulResurrectionSerum>
+          <DeathrestCapacitySerum MayRequire="Ludeon.RimWorld.Biotech">1~3</DeathrestCapacitySerum>
+          <JuggernautSerum MayRequire="Ludeon.RimWorld.Anomaly">2~5</JuggernautSerum>
+          <MetalbloodSerum MayRequire="Ludeon.RimWorld.Anomaly">2~5</MetalbloodSerum>
+          <MindNumbSerum MayRequire="Ludeon.RimWorld.Anomaly">3~8</MindNumbSerum>
+          <VoidsightSerum MayRequire="Ludeon.RimWorld.Anomaly">3~8</VoidsightSerum>
+        </customCountRanges>
+      </li>
+      <!-- The category above already buys drugs. This also catches modded drugs that carry the
+           Drugs trade tag but sit outside the Drugs category. -->
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>Drugs</tag>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <!-- Organ farm. Buys and sells people and people parts. -->
+  <TraderKindDef>
+    <defName>BetterOrbitalTraders_OrganFarm</defName>
+    <label>organ farm</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>50000~75000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>250~500</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineUltratech</thingDef>
+        <countRange>50~100</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Neutroamine</thingDef>
+        <countRange>1000~2000</countRange>
+      </li>
+      <!-- Gene trade (Biotech). Genepacks roll random genes, so volume is the only way to hunt
+           for one; vanilla's exotic trader carries 3 to 5. Hemogen by the crate, a few archite
+           capsules, a deathrest serum or two. -->
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>HemogenPack</thingDef>
+        <countRange>500~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>Genepack</thingDef>
+        <countRange>15~30</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>ArchiteCapsule</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>DeathrestCapacitySerum</thingDef>
+        <countRange>1~2</countRange>
+      </li>
+      <!-- Subcores (Biotech). Brain scans sold as parts, which is this ship's whole business. -->
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>SubcoreBasic</thingDef>
+        <countRange>3~8</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Biotech">
+        <thingDef>SubcoreRegular</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+      <!-- Meat_Human and Leather_Human are generated from the Human race def at load, not written in
+           any XML file. They resolve fine as thingDef references. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Meat_Human</thingDef>
+        <countRange>100~1000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Leather_Human</thingDef>
+        <countRange>100~1000</countRange>
+      </li>
+      <!-- Natural organs: every kind there is (vanilla has four), a modest stack of each. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>BodyPartsNatural</categoryDef>
+        <thingDefCountRange>5~10</thingDefCountRange>
+        <countRange>5~15</countRange>
+      </li>
+      <!-- Prosthetics, bionics, archotech, and DLC implants: many kinds, one or two each. The
+           psylink neuroformer is excluded: vanilla only ever buys it, and it hands out psylink
+           levels. Ghoul implants are excluded: no market value, they would sell for nothing. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>BodyParts</categoryDef>
+        <thingDefCountRange>10~25</thingDefCountRange>
+        <countRange>1~2</countRange>
+        <excludedThingDefs>
+          <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">PsychicAmplifier</li>
+        </excludedThingDefs>
+        <excludedCategories>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">BodyPartsGhoul</li>
+        </excludedCategories>
+      </li>
+      <li Class="StockGenerator_Slaves">
+        <countRange>1~5</countRange>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <!-- Void peddler. Everything the dark side of the rim produces, in one hold. The def carries
+       MayRequire itself: without Anomaly there is nothing here to sell, so it does not exist.
+       Vanilla's exotic trader carries 25 to 150 bioferrite, one tome, and a 20% chance at a
+       serum; this ship is the specialist. -->
+  <TraderKindDef MayRequire="Ludeon.RimWorld.Anomaly">
+    <defName>BetterOrbitalTraders_VoidPeddler</defName>
+    <label>void peddler</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>25000~50000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Bioferrite</thingDef>
+        <countRange>500~2000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Shard</thingDef>
+        <countRange>5~15</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Leather_Dread</thingDef>
+        <countRange>200~500</countRange>
+      </li>
+      <li Class="StockGenerator_Tomes">
+        <countRange>2~5</countRange>
+      </li>
+      <!-- Every serum, at the narcotics dealer's caps so this ship is not a loophole. A tag
+           generator rather than one line per serum because it skips anything that is not
+           buyable: ghoul resurrection serum is sellable-only in vanilla and only shows up here
+           when another mod makes it buyable (Better Tradable Items 2.0 does). A single-def line
+           for a sellable-only item would log an error instead. -->
+      <li Class="StockGenerator_Tag">
+        <tradeTag>Serum</tradeTag>
+        <thingDefCountRange>5~5</thingDefCountRange>
+        <countRange>2~5</countRange>
+        <customCountRanges>
+          <MindNumbSerum>3~8</MindNumbSerum>
+          <VoidsightSerum>3~8</VoidsightSerum>
+        </customCountRanges>
+      </li>
+      <!-- Cultist gear and bioferrite-shaped equipment. Vanilla keeps the packs and shells off
+           its basic traders; a void peddler is not a basic trader. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Apparel_CultistMask</thingDef>
+        <countRange>2~5</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Apparel_CeremonialCultistMask</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Apparel_DeadlifePack</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Apparel_DisruptorFlarePack</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Shell_Deadlife</thingDef>
+        <countRange>10~30</countRange>
+      </li>
+      <!-- Buys what only a void peddler would want. Revenant spines and void sculptures are
+           never sold by anyone, so these are buy-only lines, the same class vanilla uses. The
+           void sculpture is tradeability None in vanilla, and BuySingleDef returns None for such
+           a def, so that line is dead on its own (vanilla's exotic trader carries the same dead
+           line); Better Tradable Items makes the sculpture sellable and the line live. -->
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>RevenantSpine</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>VoidSculpture</thingDef>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HoraxWeapon</tag>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HoraxArmor</tag>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+</Defs>

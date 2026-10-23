@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: Combat Extended stock. This folder loads only while CE is active
+  (LoadFolders.xml, IfModActive on CE's package id), so every CE def named here exists when it runs.
+
+  What CE gives the vanilla orbital traders: ammo in three weight classes (trade tags CE_Ammo,
+  CE_MediumAmmo, CE_HeavyAmmo), FSX and prometheum on the bulk goods trader, turret guns
+  (CE_Turret) on the combat supplier, and 0~0 category lines so those ships buy ammo and turrets.
+  Its combat supplier carries 6~12 light ammo kinds at 1000~3000 (price Cheap), 5~10 medium at
+  175~500, 4~8 heavy at 100~250, FSX and prometheum 25~50, and -2~4 turret kinds at 1~2.
+
+  The flagship carries the combat supplier's weapons at about twice the count, so it gets the
+  combat supplier's CE block at roughly one and a half times, same Cheap price on ammo. The
+  shipbreaker salvages: turret guns pulled off hulls, heavy ordnance, demolition FSX. Both buy
+  ammo and turrets back. The scrapyard already buys both through its Root category line (CE puts
+  Ammo and WeaponsTurrets under Weapons), and the specialist ships have no combat trade to extend.
+  Both ships exist only with Odyssey, so the adds sit behind the same FindMod gate.
+-->
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Odyssey</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- Guild flagship: the combat supplier's CE stock, scaled up. -->
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/TraderKindDef[defName="BetterOrbitalTraders_Flagship"]/stockGenerators</xpath>
+          <value>
+            <li Class="StockGenerator_SingleDef">
+              <thingDef>FSX</thingDef>
+              <countRange>50~100</countRange>
+            </li>
+            <li Class="StockGenerator_SingleDef">
+              <thingDef>Prometheum</thingDef>
+              <countRange>50~100</countRange>
+            </li>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_Ammo</tradeTag>
+              <thingDefCountRange>8~12</thingDefCountRange>
+              <countRange>1500~4000</countRange>
+              <price>Cheap</price>
+            </li>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_MediumAmmo</tradeTag>
+              <thingDefCountRange>6~10</thingDefCountRange>
+              <countRange>250~750</countRange>
+              <price>Cheap</price>
+            </li>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_HeavyAmmo</tradeTag>
+              <thingDefCountRange>5~8</thingDefCountRange>
+              <countRange>150~400</countRange>
+              <price>Cheap</price>
+            </li>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_Turret</tradeTag>
+              <thingDefCountRange>1~4</thingDefCountRange>
+              <countRange>1~2</countRange>
+            </li>
+            <!-- Buys every ammo and turret gun, same as CE's combat supplier. -->
+            <li Class="StockGenerator_Category">
+              <categoryDef>Ammo</categoryDef>
+              <thingDefCountRange>0~0</thingDefCountRange>
+            </li>
+            <li Class="StockGenerator_Category">
+              <categoryDef>WeaponsTurrets</categoryDef>
+              <thingDefCountRange>0~0</thingDefCountRange>
+            </li>
+          </value>
+        </li>
+
+        <!-- Orbital shipbreaker: salvage. -->
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/TraderKindDef[defName="BetterOrbitalTraders_Shipbreaker"]/stockGenerators</xpath>
+          <value>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_Turret</tradeTag>
+              <thingDefCountRange>1~3</thingDefCountRange>
+              <countRange>1~2</countRange>
+            </li>
+            <li Class="StockGenerator_Tag">
+              <tradeTag>CE_HeavyAmmo</tradeTag>
+              <thingDefCountRange>2~4</thingDefCountRange>
+              <countRange>50~150</countRange>
+            </li>
+            <li Class="StockGenerator_SingleDef">
+              <thingDef>FSX</thingDef>
+              <countRange>25~50</countRange>
+            </li>
+            <li Class="StockGenerator_Category">
+              <categoryDef>Ammo</categoryDef>
+              <thingDefCountRange>0~0</thingDefCountRange>
+            </li>
+            <li Class="StockGenerator_Category">
+              <categoryDef>WeaponsTurrets</categoryDef>
+              <thingDefCountRange>0~0</thingDefCountRange>
+            </li>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

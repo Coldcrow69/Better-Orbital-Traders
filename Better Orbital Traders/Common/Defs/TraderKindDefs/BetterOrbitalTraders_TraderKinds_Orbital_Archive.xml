@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Orbital Traders: autonomous archive.
+
+  StockGenerator_Techprints is a Core class and simply generates nothing when Royalty is not
+  active, so it needs no MayRequire. The Traders Guild faction tag only takes effect with
+  Odyssey; see BetterOrbitalTraders_TraderKinds_Orbital.xml next to this file for what it does.
+-->
+<Defs>
+
+  <!-- Autonomous archive. Books, vanilla and modded, and techprints, plus tomes and maps with the
+       right DLC. -->
+  <TraderKindDef>
+    <defName>BetterOrbitalTraders_Archive</defName>
+    <label>autonomous archive</label>
+    <orbital>true</orbital>
+    <faction MayRequire="Ludeon.RimWorld.Odyssey">TradersGuild</faction>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>25000~50000</countRange>
+      </li>
+      <!-- 4, 6, or 8 techprints, weighted toward 4. Vanilla ships top out at 3. -->
+      <li Class="StockGenerator_Techprints">
+        <countChances>
+          <li>
+            <count>4</count>
+            <chance>0.5</chance>
+          </li>
+          <li>
+            <count>6</count>
+            <chance>0.3</chance>
+          </li>
+          <li>
+            <count>8</count>
+            <chance>0.2</chance>
+          </li>
+        </countChances>
+      </li>
+      <!-- Books. Every generated book builds a full author pawn (the book code runs the tale
+           system's random pawn, which is the whole pawn generator), so book count is arrival
+           cost. The 1.x archive caused lag spikes and, next to mods that patch pawn generation,
+           failed arrivals. 2~4 of each kind is still double any vanilla ship. -->
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>TextBook</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Schematic</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Novel</thingDef>
+        <countRange>2~4</countRange>
+      </li>
+      <!-- Books from other mods (Vanilla Books Expanded and friends). The vanilla titles above and
+           the DLC books below are excluded so nothing is picked twice. Empty pool means nothing
+           generated, no error. -->
+      <li Class="StockGenerator_Category">
+        <categoryDef>Books</categoryDef>
+        <thingDefCountRange>3~6</thingDefCountRange>
+        <countRange>1~2</countRange>
+        <excludedThingDefs>
+          <li>TextBook</li>
+          <li>Schematic</li>
+          <li>Novel</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Tome</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">Map</li>
+        </excludedThingDefs>
+      </li>
+      <!-- Dark reading and wayfinding, each only with its DLC. -->
+      <li Class="StockGenerator_Tomes" MayRequire="Ludeon.RimWorld.Anomaly">
+        <countRange>1~3</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef" MayRequire="Ludeon.RimWorld.Odyssey">
+        <thingDef>Map</thingDef>
+        <countRange>1~3</countRange>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+</Defs>
