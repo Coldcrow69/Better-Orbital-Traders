@@ -352,7 +352,9 @@
         </customCountRanges>
       </li>
       <!-- Cultist gear and bioferrite-shaped equipment. Vanilla keeps the packs and shells off
-           its basic traders; a void peddler is not a basic trader. -->
+           its basic traders; a void peddler is not a basic trader. Combat Extended rebuilds the
+           shell as ammo that is untradeable at def-check time, so the CombatExtended folder
+           removes the shell line while CE is active. -->
       <li Class="StockGenerator_SingleDef">
         <thingDef>Apparel_CultistMask</thingDef>
         <countRange>2~5</countRange>

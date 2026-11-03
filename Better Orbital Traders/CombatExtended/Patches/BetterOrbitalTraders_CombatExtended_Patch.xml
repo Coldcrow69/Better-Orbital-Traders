@@ -15,6 +15,12 @@
   ammo and turrets back. The scrapyard already buys both through its Root category line (CE puts
   Ammo and WeaponsTurrets under Weapons), and the specialist ships have no combat trade to extend.
   Both ships exist only with Odyssey, so the adds sit behind the same FindMod gate.
+
+  The void peddler loses its deadlife shell line here (Anomaly gate at the bottom). CE rebuilds
+  Shell_Deadlife as 81mm mortar ammo on a base with tradeability None and flips it to All only
+  after the game has run its dev-mode def check, so a single-def sell line logs a config error at
+  every startup (reported 11/2026). CE sells ammo through tag lines only; with CE the shell can
+  still roll from the flagship's and shipbreaker's heavy ammo lines.
 -->
 <Patch>
 
@@ -102,6 +108,16 @@
         </li>
 
       </operations>
+    </match>
+  </Operation>
+
+  <!-- Void peddler: drop the deadlife shell line. Why: the header. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Anomaly</li>
+    </mods>
+    <match Class="PatchOperationRemove">
+      <xpath>Defs/TraderKindDef[defName="BetterOrbitalTraders_VoidPeddler"]/stockGenerators/li[thingDef="Shell_Deadlife"]</xpath>
     </match>
   </Operation>
 

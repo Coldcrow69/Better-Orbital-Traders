@@ -28,7 +28,7 @@ Ground traders and traders from other mods are left alone.
 
 ## Compatibility
 
-XML only. Safe to add or remove mid-save (land any modded trade ships first). Conflicts only with mods that also edit base game orbital trader stock. Tested alongside Call A Trader, which can summon the flagship without the Guild. Trader Ships has not been re-tested since the ships joined the Traders Guild. Combat Extended works in any load order (1.x needed this mod loaded before CE), and the CE stock lines load only when CE is active. Trading Options Continued stacks on top; its multipliers multiply these numbers. Multiplayer is untested; XML only, so nothing here should desync.
+XML only. Safe to add or remove mid-save (land any modded trade ships first). Conflicts only with mods that also edit base game orbital trader stock. Tested alongside Call A Trader, which can summon the flagship without the Guild. Trader Ships has not been re-tested since the ships joined the Traders Guild. Combat Extended works in any load order (1.x needed this mod loaded before CE), and the CE stock lines load only when CE is active; with CE the void peddler drops its deadlife shell line, since CE rebuilds that shell as ammo. Trading Options Continued stacks on top; its multipliers multiply these numbers. Multiplayer is untested; XML only, so nothing here should desync.
 
 ## Install
 
@@ -41,7 +41,7 @@ Better Orbital Traders/
   About/                      mod metadata, preview image, workshop id
   Common/Defs/TraderKindDefs/ the eight new traders (void peddler needs Anomaly, shipbreaker and flagship need Odyssey)
   Common/Patches/             Core and Royalty re-balance patches, Odyssey Traders Guild request list
-  CombatExtended/Patches/     loads only with Combat Extended: ammo, FSX, prometheum, turrets on the flagship and shipbreaker
+  CombatExtended/Patches/     loads only with Combat Extended: ammo, FSX, prometheum, turrets on the flagship and shipbreaker, and drops the void peddler's deadlife shells
   LoadFolders.xml             points 1.6 and 1.7 at Common/, plus CombatExtended/ while CE is active
   ReadMe.txt                  full notes, FAQ, changelog (ships with the mod)
   LICENSE.txt

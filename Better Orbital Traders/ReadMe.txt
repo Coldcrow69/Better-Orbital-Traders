@@ -83,7 +83,10 @@ adds its own ammo; this mod's mortar shell change on the combat supplier skips i
 the line is already gone. On 1.x this mod had to load before CE or you got four red errors
 at startup. With CE active the flagship stocks CE ammo, FSX, prometheum, and turrets at the
 combat supplier's scale and up, and the shipbreaker salvages turrets, heavy ammo, and FSX.
-Both buy ammo and turrets back. The scrapyard buys them like everything else.
+Both buy ammo and turrets back. The scrapyard buys them like everything else. The void
+peddler drops its deadlife shell line while CE is active: CE rebuilds the shell as 81mm
+mortar ammo, and the shell can still roll from the flagship's and shipbreaker's heavy ammo
+lines.
 
 Trading Options Continued: works on top of this mod, and its multipliers stack with these
 numbers, so a 2x silver slider on a 50,000 silver ship is 100,000.
@@ -102,6 +105,13 @@ A: No.
 
 Q: Red errors at startup about MortarShell on the combat supplier, with Combat Extended?
 A: Fixed in 2.0, any load order works. On 1.x, load this mod before Combat Extended.
+
+Q: Red error at startup with Combat Extended, "Config error in
+   BetterOrbitalTraders_VoidPeddler: Shell_Deadlife tradeability doesn't allow traders to
+   sell this thing"?
+A: Fixed in 2.0.1. It only showed with dev mode on, and the shells still sold. CE turns the
+   deadlife shell into ammo that is untradeable until just after the game's def check, so the
+   void peddler now skips the shell line while CE is active.
 
 Q: The Traders Guild hates me and your ships stopped showing up. Bug?
 A: No. With Odyssey the ships belong to the Guild, and the game doesn't send ships from a
@@ -175,6 +185,15 @@ MIT. See LICENSE.txt.
 
 CHANGELOG
 ---------
+2.0.1
+- Combat Extended: the void peddler no longer lists deadlife shells while CE is active. CE
+  rebuilds the shell as 81mm mortar ammo that is untradeable until just after the game's def
+  check, so with dev mode on the line logged a config error at every startup ("Config error
+  in BetterOrbitalTraders_VoidPeddler: Shell_Deadlife tradeability doesn't allow traders to
+  sell this thing"). Harmless in 2.0, the shells still sold; gone now. With CE the shell can
+  still roll from the flagship's and shipbreaker's heavy ammo lines. Nothing changes without
+  CE.
+
 2.0
 - Requires RimWorld 1.6 or 1.7. Support for 1.4 and 1.5 dropped. 1.7 replaced the game
   engine, not the defs this mod touches, so both versions load the same files.
